@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@farcaster/tsconfig/node.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "es2022",
+    "types": ["@cloudflare/workers-types"]
+  },
+  "include": ["src/**/*"]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@ai-twin/openai-client",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Thin wrapper around OpenAI for style-mimic prompts",
+  "main": "dist/index.js",
+  "module": "esm/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "openai": "^4.28.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^22.10.2",
+    "@farcaster/tsconfig": "workspace:*"
+  }
+}

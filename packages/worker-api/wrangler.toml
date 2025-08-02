@@ -1,0 +1,13 @@
+name = "ai-twin-worker-api"
+main = "dist/index.js"
+compatibility_date = "2025-01-01"
+
+[build]
+command = "pnpm --filter @ai-twin/worker-api run build"
+
+[vars]
+HOSTNAME = "ai-twin-worker.dev"
+NEYNAR_API_KEY = "<set-in-dashboard>"
+
+[triggers]
+crons = ["*/30 * * * *"]
