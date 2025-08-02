@@ -4,6 +4,7 @@ import { cors } from 'hono/cors'
 import { createMiddleware } from 'hono/factory'
 import { HTTPException } from 'hono/http-exception'
 import type { ExportedHandlerScheduledHandler } from '@cloudflare/workers-types'
+import { ensureManagedSigner } from './utils/managedSigner.js'
 
 // ---- Types -----------------------------------------------------------------
 
@@ -11,6 +12,7 @@ interface Env {
   HOSTNAME: string
   SUPABASE_URL: string
   SUPABASE_ANON_KEY: string
+  NEYNAR_API_KEY: string
   // Add more bindings (KV / D1 / etc.) as you introduce them
 }
 
@@ -75,8 +77,14 @@ app.post('/settings', quickAuthMiddleware, async (c) => {
 
 // 3. Kick-off flow – mint managed signer via Neynar & persist
 app.post('/kickoff', quickAuthMiddleware, async (c) => {
-  // TODO: integrate Neynar managed signer util
-  return c.json({ ok: true })
+  const { fid } = c.get('user')
+  try {
+    const signer = await ensureManagedSigner(fid, c.env.NEYNAR_API_KEY)
+    // TODO: persist signer_uuid in Supabase along with fid
+    return c.json(signer)
+  } catch (e) {
+    return c.json({ error: (e as Error).message }, 500)
+  }
 })
 
 // ---- Cron job --------------------------------------------------------------
